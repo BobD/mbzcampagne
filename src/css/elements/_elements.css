@@ -1,0 +1,62 @@
+html.js,
+html.js body{
+	height: 100%;
+}
+
+html.js.html--detail,
+html.js.html--detail body{
+    height: auto;
+}
+
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+*{
+	text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+}
+
+p{
+    & .underline,
+    & a[href]{
+        color: inherit;
+        text-decoration: none;
+        position: relative;
+
+        &:after{
+            content: '';
+            display: block;
+            position: absolute;
+            top: 90%;
+            left: -1%;
+            right: -1%;
+            height: 1px;
+            width: 100%;
+            background: currentColor;
+            transition: width .5s ease .5s;
+            opacity: .75;
+            margin: 0 auto;
+            margin-top: 0.2em;
+        }
+    }
+}
+
+iframe{
+    /*height: auto !important;*/
+}
+
+video{
+    /*height: auto !important;*/
+}
+
+@media (--minimal-viewport) {
+    html,
+    body{
+        height: auto;
+    }
+}

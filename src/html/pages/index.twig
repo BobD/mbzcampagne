@@ -1,0 +1,33 @@
+{% set page_modifier = 'page page--home' %}
+
+{% extends "layouts/_site.twig" %}
+
+{% block header %}
+     <header data-js="header" class="header page__header">
+		header
+     </header>
+{% endblock %}
+
+{% block main %}
+
+    <main class="main page__main">
+		main
+	</main>
+
+{% endblock %}
+
+
+{% block footer %}
+    <footer class="footer page__footer">
+        
+	    <script src="js/app.bundle.js" charset="utf-8"></script>
+
+	    {% if env == 'development' %}
+	        <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+	    {% endif %}
+
+	    footer
+
+    </footer>
+        
+{% endblock %}
