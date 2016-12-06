@@ -67,7 +67,7 @@ Right now there is one master layout (layouts/_site.twig) and two pages using th
 
 The js folder contains all needed javascript. It uses webpack (https://webpack.github.io/) to generate the minimized javascript file to be included in the website, and it uses ES2015 notation transpiled using Babel (https://babeljs.io/docs/learn-es2015/).
 
-The app.js is the starting point for the website, which loads a couple of independant modules and utils. Third pary script uses are jQuery, Slick Slider (http://kenwheeler.github.io/slick/) and (http://masonry.desandro.com/.
+The app.js is the starting point for the website, which loads a couple of independant modules and utils.
 
 
 #### public folder
@@ -101,4 +101,4 @@ You can configure webpack using the webpack.config.js file. This will produce th
 
 ## Roadmap
 
-* Replace the last remaining jQuery bits with vanilla javascript. This means writing a little 'toggleClass' polyfill which should be easy, and using an alternative for Slick Slider (http://kenwheeler.github.io/slick/). It will reduce the filesize of the the app.bundle.js considerably.
+* ..

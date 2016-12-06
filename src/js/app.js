@@ -1,34 +1,65 @@
 import 'babel-polyfill';
-import $ from 'jquery';
 import log from './utils/logger';
-import History from './modules/history';
+import History from './utils/history';
 import ScreenMode from './utils/screenmode';
+import Tools from 'utils/tools';
+
+import Video from './modules/video';
 import Footer from './modules/footer';
 
-window.log = log;
+import React from 'react';
+import {render} from 'react-dom';
 
-document.addEventListener("DOMContentLoaded", function(e) {
-	let history = new History();	
-	let screenMode = new ScreenMode();
-	let mode = screenMode.getScreenMode();
-	let footer = new Footer();
-	let $html = document.querySelector('html');
-	let $body = document.querySelector('body');	
-	let $page = document.querySelector('.page');
+		window.log = log;
 
-	$($html).toggleClass('no-js', false);
-	$($html).toggleClass('js', true);
+class App {
 
-	history.on('change', (e) => {
-		showDetail(e.id)
-	})
+	constructor(config){
+		let history = new History();	
+		let screenMode = new ScreenMode();
+		let mode = screenMode.getScreenMode();
+		let footer = new Footer();
 
-	applyScreenMode(mode);
-	screenMode.on('change', (e) => {
-		applyScreenMode(e.mode);
-		moodBoard.setMode((mode.isMobile || mode.isTabletPortrait) ? 'mobile' : 'desktop');
-	});
+		this.$html = document.querySelector('html');
+		this.$body = document.querySelector('body');	
+		this.$page = document.querySelector('.page');
 
-});
+		Tools.toggleClass(this.$html,'no-js', false);
+		Tools.toggleClass(this.$html,'js', true);
+
+		history.on('change', (e) => {
+			this.setScene(e.pathname);
+		});
+
+		this.setScene(history.get());
+
+		screenMode.on('change', (e) => {
+			this.setScreenMode(e.mode);
+		});
+	}
+
+	setScreenMode(mode){
+
+	}
+
+	setScene(pathname){
+		if(pathname == '/start'){
+			let vid = new Video();
+			render(<Video onChapter={this.onVideoChapter}/>, document.querySelector('body'));
+		}
+	}
+
+	onVideoChapter(e){
+		log(e.chapter, e.player);
+		e.player.pause();
+	}
+
+}
+
+new App();
+
+
+// document.addEventListener("DOMContentLoaded", function(e) {
+// });
 
 

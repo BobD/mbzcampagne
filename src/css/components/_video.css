@@ -1,0 +1,18 @@
+.video{
+	width: 100%;
+	height: 100%;
+}
+
+/*http://thenewcode.com/777/Create-Fullscreen-HTML5-Page-Background-Video*/
+#video__container,
+#video__container video{
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    /*z-index: -100;*/
+    transform: translateX(-50%) translateY(-50%);
+}

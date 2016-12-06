@@ -1,9 +1,11 @@
 import Events from 'events';
+import Tools from 'utils/tools';
 
 class ScreenMode {
 
 	constructor(){
 		this.eventEmitter = new Events.EventEmitter();
+		this.$html = document.querySelector('html');
 
 		window.addEventListener('resize', () => {
 			this.onWindowResize();
@@ -17,9 +19,9 @@ class ScreenMode {
 	}
 
 	onWindowResize(){
-		let screenMode = this.getScreenMode();
+		this.applyScreenMode();
 		this.eventEmitter.emit('change', {
-			mode: screenMode
+			mode:  this.getScreenMode()
 		});
 	}
 
@@ -64,7 +66,7 @@ class ScreenMode {
 
 	isMobileiOS(){
 		var userAgent = window.navigator.userAgent;
-		return (userAgent.match(/iPhone/i));
+		return (userAgent.match(/iPhone/i)) != null;
 	}
 
 	checkiOSversion() {
@@ -73,6 +75,17 @@ class ScreenMode {
 	    var v = (window.navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
 	    return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
 	  }
+	}
+
+	applyScreenMode(){
+		let mode = this.getScreenMode();
+		Tools.toggleClass(this.$html, 'is-mobile', mode.isMobile);
+		Tools.toggleClass(this.$html,'is-ios', mode.isMobileiOS);
+		Tools.toggleClass(this.$html,'is-tablet', mode.isTablet);
+		Tools.toggleClass(this.$html,'is-tablet-landscape', mode.isTabletLandscape);
+		Tools.toggleClass(this.$html,'is-tablet-portrait', mode.isTabletPortrait);
+		Tools.toggleClass(this.$html,'is-tablet-minimal', mode.isMinimal);
+		Tools.toggleClass(this.$html,'is-desktop', (!mode.isMobile && !mode.isTablet));
 	}
 
 }

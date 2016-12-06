@@ -33,16 +33,28 @@
             <script async src="js/matchmedia.js"></script>
         <![endif]-->
     </head>
-    <body id="top" class="{{page_modifier}}">
-
-        {% block header %}
-        {% endblock %}
+    <body id="top" class="page {{page_modifier}}">
         
-        {% block main %}
-        {% endblock %}
+        <header class="header page__header">
+            {% block header %}
+            {% endblock %}
+        </header>
+        
+        <main class="main page__main">
+            {% block main %}
+            {% endblock %}
+        </main>
+        
+        <footer class="footer page__footer">
+            <script src="js/app.bundle.js" charset="utf-8"></script>
 
-        {% block footer %}
-        {% endblock %}
+            {% if env == 'development' %}
+                <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+            {% endif %}
+            
+            {% block footer %}
+            {% endblock %}
+        </footer>
 
     </body>
 </html>
