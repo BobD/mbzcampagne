@@ -5,33 +5,31 @@ import ScreenMode from './utils/screenmode';
 import Tools from 'utils/tools';
 
 import Video from './modules/video';
-import Footer from './modules/footer';
+import Screens from './modules/screens';
 
 import React from 'react';
 import {render} from 'react-dom';
 
-		window.log = log;
+window.log = log;
 
 class App {
 
 	constructor(config){
-		let history = new History();	
-		let screenMode = new ScreenMode();
-		let mode = screenMode.getScreenMode();
-		let footer = new Footer();
-
+		this.history = new History();	
 		this.$html = document.querySelector('html');
 		this.$body = document.querySelector('body');	
 		this.$page = document.querySelector('.page');
 
+		let screenMode = new ScreenMode();
+
 		Tools.toggleClass(this.$html,'no-js', false);
 		Tools.toggleClass(this.$html,'js', true);
 
-		history.on('change', (e) => {
-			this.setScene(e.pathname);
+		this.history.on('change', (e) => {
+			this.initPath(e.pathname);
 		});
 
-		this.setScene(history.get());
+		this.initPath(this.history.get());
 
 		screenMode.on('change', (e) => {
 			this.setScreenMode(e.mode);
@@ -42,17 +40,46 @@ class App {
 
 	}
 
-	setScene(pathname){
-		if(pathname == '/start'){
-			let vid = new Video();
-			render(<Video onChapter={this.onVideoChapter}/>, document.querySelector('body'));
+	initPath(pathname){
+		let pathSegments = pathname.split('/');
+
+		if(pathSegments[0] == ''){
+			pathSegments.shift();
+		}
+
+		if(pathSegments[0] == 'vragen'){
+			this.renderVideo();
+
+			let question = pathSegments[1];
+			log(question);
+			if(question != undefined){
+				this.renderScreen(question);
+			} 
 		}
 	}
 
-	onVideoChapter(e){
-		log(e.chapter, e.player);
+	renderVideo(){
+		let $target = document.querySelector('.video');
+		if(Tools.hasClass($target, 'active')){
+			return;
+		}
+
+		render(<Video onScreen={(e) => {this.onScreen(e);}}/>, $target);
+		Tools.toggleClass($target,'active', true);
+	}
+
+	onScreen(e){
+		this.history.set(`/vragen/${e.data.chapter}`)
 		e.player.pause();
 	}
+
+	renderScreen(question){
+		log('renderScreen');
+		let $target = document.querySelector('.screens');
+		render(<Screens/>, $target);
+		// Tools.toggleClass($target,'active', true);
+	}
+
 
 }
 

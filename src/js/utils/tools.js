@@ -1,6 +1,16 @@
+// Much obliged to http://youmightnotneedjquery.com/
+
 class Tools {
 
 	constructor(){
+	}
+
+	static hasClass(el, className, force){
+		if (el.classList){
+		  	return el.classList.contains(className);
+		}else{
+		  	return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+		}
 	}
 
 	static toggleClass(el, className, force){

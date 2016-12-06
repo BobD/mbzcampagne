@@ -1,7 +1,5 @@
-
 import React from 'react';
 import {render} from 'react-dom';
-
 import videojs from 'video.js';
 
 class Video extends React.Component{
@@ -20,24 +18,41 @@ class Video extends React.Component{
 
 			 // Get tracks, see https://www.html5rocks.com/en/tutorials/track/basics/
 			 setTimeout(() => {
-				 var videoElement = document.querySelector("video");
-				 var textTracks = myPlayer.textTracks();
-				 var chapters = textTracks[0];
+				let videoElement = document.querySelector("video");
+				let textTracks = myPlayer.textTracks();
+				let chapters = textTracks[0];
+				let cues = chapters.cues;
 
-				 chapters.oncuechange = () => {
-				 	if(chapters.activeCues.length == 0){
-				 		return;
-				 	}
-				  	let cue = chapters.activeCues[0]; 
-				  	let data = JSON.parse(cue.text);
+				for(let a = 0; a < cues.length; ++a){
+					let cue = cues[a];
 
-				  	base.props.onChapter({
-				  		player: myPlayer,
-				  		chapter: data
-				  	})
+					cue.onenter = function(){
+
+					};
+
+					cue.onexit = function(){
+						let data = JSON.parse(cue.text);
+				  		base.props.onScreen({
+				  			player: myPlayer,
+				  			data: data
+				  		})
+					};
 				}
 
-			 }, 100);
+				//  chapters.oncuechange = () => {
+				//  	if(chapters.activeCues.length == 0){
+				//  		return;
+				//  	}
+				//   	let cue = chapters.activeCues[0]; 
+				//   	let data = JSON.parse(cue.text);
+
+				//   	base.props.onScreen({
+				//   		player: myPlayer,
+				//   		data: data
+				//   	})
+				// }
+
+			 }, 500);
 
 			 myPlayer.play();
 		});
@@ -45,10 +60,10 @@ class Video extends React.Component{
 
 	render(){
 		return (
-			<div className="video">
+			<div className="video__container">
 				<link href="//vjs.zencdn.net/5.4.6/video-js.min.css" rel="stylesheet"></link>
 				<script src="//vjs.zencdn.net/5.4.6/video.min.js"></script>
-				<video id="video__container" className="video__container video-js vjs-default-skin"
+				<video id="video__element" className="video__container video-js vjs-default-skin"
 					  controls preload="auto"
 					  poster="http://video-js.zencoder.com/oceans-clip.png">
 					 <source src="eh5v.files/html5video/Vastgoed_Maetland.m4v" type="video/mp4" />
