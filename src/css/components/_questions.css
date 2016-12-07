@@ -1,0 +1,27 @@
+.questions{
+	opacity: 0;
+	transition: opacity .5s ease-in;
+
+	&.active{
+		opacity: 1;
+
+	}
+}
+
+.questions__screen{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	color: white;
+	background: rgba(7, 48, 73, .75);
+}
+
+.questions__content{
+	height: 100%;
+	display: flex; 
+	flex-direction: column; 
+	align-items: center;
+	justify-content: center;
+}

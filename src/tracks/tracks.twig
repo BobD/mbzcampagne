@@ -1,0 +1,7 @@
+WEBVTT FILE
+
+{% for track in tracks %}
+{{track.id}}
+{{track.content.attributes.start}} --> {{track.content.attributes.end}}
+
+{% endfor %}

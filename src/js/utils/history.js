@@ -10,13 +10,12 @@ class History {
 		this.history = CreateHashHistory({
 			// hashType: 'noslash'
 		});
+		
 		this.history.listen((location, action) => {
 			this.eventEmitter.emit('change', {
 	  			pathname: this.history.location.pathname
 	  		});
 		});
-
-	  	// this.history.push('/wut', { some: 'state' })
 	}
 
 

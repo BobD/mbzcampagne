@@ -2,13 +2,19 @@
 
 {% extends "layouts/_site.twig" %}
 
-{% block header %}
+{% block data %}
+	var data = {{pages|json_encode()}};
 {% endblock %}
 
 {% block main %}
-	{% include 'components/_intro.twig' with {} %}
-	{% include 'components/_video.twig' with {} %}
-	{% include 'components/_screens.twig' with {} %}
+	{% include 'components/_background.twig' with {} %}
+	<div class="header">
+		{% include 'components/_intro.twig' with {} %}
+	</div>
+	<div class="content">
+		{% include 'components/_video.twig' with {} %}
+		{% include 'components/_questions.twig' with {} %}
+	</div>
 {% endblock %}
 
 

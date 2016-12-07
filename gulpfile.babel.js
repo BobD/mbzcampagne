@@ -26,6 +26,7 @@ import slug from 'slug';
 const sourceDir = './src';
 const contentDir = './src/content';
 const destinationDir = (args.env === 'production') ? './dist' : './build';
+const idPrefix = '';
 let siteData;
 
 function getPageData(pageName){
@@ -65,7 +66,7 @@ gulp.task('data', () => {
             try {
                 let fileSource = fs.readFileSync(file, 'utf-8');
                 let fileContent = frontMatter(fileSource);
-                fileContent.attributes.id =  `id_${slug(fileContent.attributes.title, {lower:true})}`;
+                fileContent.attributes.id =  `${idPrefix}${slug(fileContent.attributes.title, {lower:true})}`;
 
                 fileContent.attributes.images = [];
                 images.forEach((entry) => {
@@ -101,7 +102,8 @@ gulp.task('data', () => {
                     fileContent.attributes.sections.push({
                         content: sContent,
                         images: sImages,
-                        id: `id_${slug(sContent.attributes.title, {lower:true})}`,
+                        // id: `${idPrefix}${slug(sContent.attributes.title, {lower:true})}`,
+                        id: `${idPrefix}${slug(sDirName, {lower:true})}`,
                         type: sContent.attributes.type ? sContent.attributes.type : 'text'
                     });
 
@@ -154,7 +156,26 @@ gulp.task('pages', ['styles'],() => {
         .pipe(livereload({ }));
 });
 
-gulp.task('compile', ['data', 'pages']);
+gulp.task('tracks', () => {
+    let twig = require('gulp-twig');
+
+    return gulp.src(`${sourceDir}/tracks/*.twig`)
+     .pipe(data((file) => {
+        return {
+            tracks: siteData.pages.vragen.attributes.sections
+        }
+     }))
+     .pipe(twig({
+     }))
+    .pipe(rename(function (path) {
+        path.extname = '.vtt'
+        return path;
+    }))
+    .pipe(gulp.dest(destinationDir))
+    .pipe(livereload({ }));
+});
+
+gulp.task('compile', ['data', 'pages', 'tracks']);
 
 gulp.task('styles', function () {
     // https://ismamz.github.io/postcss-utilities/docs

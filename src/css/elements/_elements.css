@@ -1,13 +1,11 @@
 html.js,
 html.js body{
-	height: 100%;
 }
 
-html.js.html--detail,
-html.js.html--detail body{
-    height: auto;
+html.js{
+    height: 100%;
+    overflow: hidden;
 }
-
 
 html {
   box-sizing: border-box;
