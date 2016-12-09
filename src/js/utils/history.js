@@ -5,8 +5,9 @@ import Events from 'events';
 class History {
 
 	constructor(config){
-		// https://github.com/mjackson/history
 		this.eventEmitter = new Events.EventEmitter();
+
+		// https://github.com/mjackson/history
 		this.history = CreateHashHistory({
 			// hashType: 'noslash'
 		});

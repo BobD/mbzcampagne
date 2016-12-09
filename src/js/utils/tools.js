@@ -25,7 +25,6 @@ class Tools {
 			let existingIndex = classes.indexOf(className);
 
 			if(force){
-				log(existingIndex);
 	  			if (existingIndex == -1){
 		    		classes.push(className);
 				}

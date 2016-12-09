@@ -1,30 +1,31 @@
 .intro{
 	width: 100%;
 	height: 100%;
-	display: flex; 
-	flex-direction: column; 
-	align-items: center;
 	color: white;
 }
 
-.intro__header,
-.intro__main,
-.intro__footer{
+.intro__container{
+	text-align: center;
 }
 
-.intro__header{
-
+.intro__title{
+	font-family: var(--font-heading-bold);
+	font-size: var(--ms5);
+	line-height: 1.2;
 }
 
-.intro__main{
-	flex-grow: 1;
-
-	display: flex; 
-	flex-direction: column; 
-	align-items: center;
-	justify-content: center;
+.intro__description{
+	max-width: 24em;
+	margin: 0 0 1em 0;
 }
 
-.intro__footer{
+.intro__start{
+	color: inherit;
+	text-decoration: none;
+	font-family: var(--font-heading-bold);
+	font-size: var(--ms2);
+}
+
+.intro__start{
 
 }

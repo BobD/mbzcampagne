@@ -69,6 +69,11 @@ class ScreenMode {
 		return (userAgent.match(/iPhone/i)) != null;
 	}
 
+	isDesktop(){
+		let mode = this.getScreenMode(); 
+		return (!mode.isMobile && !mode.isTablet);
+	}
+
 	checkiOSversion() {
 	  if (/iP(hone|od|ad)/.test(window.navigator.platform)) {
 	    // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>

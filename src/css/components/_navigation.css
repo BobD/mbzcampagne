@@ -1,0 +1,14 @@
+.navigation{
+	position: fixed;
+	top:  var(--sidebar-padding-top);
+	right:  var(--sidebar-padding-right);
+	color: white;
+}
+
+.navigation__trigger{
+	cursor: pointer;
+}
+
+.navigation__social{
+
+}

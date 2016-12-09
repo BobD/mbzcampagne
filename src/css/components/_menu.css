@@ -1,0 +1,14 @@
+.menu{
+	text-align: center;
+}
+
+.menu__link{
+	text-decoration: none;
+	color: inherit;
+	display: block;
+	
+	font-family: var(--font-heading-bold);
+	font-size: var(--ms1);
+	line-height: 1.2;
+	margin: .25em 0;
+}

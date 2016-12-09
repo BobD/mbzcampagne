@@ -1,0 +1,17 @@
+.page{
+
+}
+
+.page__header{
+	text-align: right;
+	font-family: var(--font-heading-bold);
+	font-size: var(--ms3);
+}
+
+.page__content{
+	& p{
+		text-align: justify;
+		column-count: 2;
+		column-gap: 1.5em;
+	}
+}

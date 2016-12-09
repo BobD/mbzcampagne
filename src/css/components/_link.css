@@ -1,0 +1,10 @@
+.link{
+	cursor: pointer;
+	transform: scale(1);
+	transition: all .25s ease;
+	display: inline-block;
+
+	&:hover{
+		transform: scale(1.25);
+	}
+}

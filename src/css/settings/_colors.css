@@ -1,5 +1,6 @@
 :root {
+	--color-blue: #007BC7;
+	--color-blue-dark: #143552;
+
 	--color-text: #212121;
-	--color-black: #202022;
-	--color-caption: #818181;
 }

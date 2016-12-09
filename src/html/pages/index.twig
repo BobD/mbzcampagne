@@ -8,13 +8,30 @@
 
 {% block main %}
 	{% include 'components/_background.twig' with {} %}
+
 	<div class="header">
-		{% include 'components/_intro.twig' with {} %}
+
+		<header class="header__top">
+			{% include 'includes/_logo.twig' with {} %}
+		</header>
+
+		<div class="header__content">
+			{% include 'components/_intro.twig' with {} %}
+		</div>
+
+		<footer class="header__footer">
+			{% include 'includes/_footer.twig' with {} %}
+		</footer>
+
 	</div>
+
 	<div class="content">
 		{% include 'components/_video.twig' with {} %}
 		{% include 'components/_questions.twig' with {} %}
 	</div>
+	
+	{% include 'components/_navigation.twig' with {} %}
+	{% include 'components/_sidebar.twig' with {} %}
 {% endblock %}
 
 

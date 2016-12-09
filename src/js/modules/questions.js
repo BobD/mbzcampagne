@@ -31,18 +31,19 @@ class Questions extends React.Component{
 		let index = 0;
 
 		options.forEach((option) => {
-			optionElements.push((<li key={index} onClick={() => this.onQuestionAnswer(option)} className="questions__list-item">{option}</li>))
+			optionElements.push((<li key={index} onClick={() => this.onQuestionAnswer(option)} className="questions__option link">{option}</li>))
 			++index;
 		});
 
 		return (
 			<div className="questions__screen">
+				<div className="questions__background"></div>
 				<div className="questions__content">
-					<div className="questions__title">{this.props.title}</div>
+					<div className="questions__title">{this.props.title}:</div>
 					<ul className="questions__list">
 						{optionElements}
 					</ul>
-					<div className="questions__again" onClick={() => this.onReplay()}>Speel fragment opnieuw</div>
+					<div className="questions__again link" onClick={() => this.onReplay()}>Speel fragment opnieuw</div>
 				</div>
 			</div>
 		);

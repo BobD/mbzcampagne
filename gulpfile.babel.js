@@ -202,30 +202,17 @@ gulp.task('styles', function () {
 });
 
 gulp.task('site-images', function () {
-  return gulp.src(`${contentDir}/images/**/*.*`)
-        .pipe(changed(destinationDir))
+    return gulp.src(`${contentDir}/images/**/*.*`)
+        .pipe(imageResize({
+            width : 1200,
+            imageMagick: true
+        }))
         .pipe(imagemin({}))
         .pipe(gulp.dest(`${destinationDir}/images`))
 });
 
-gulp.task('page-images', function () {
-  return gulp.src(`${contentDir}/pages/*/images/*.*`)
-        .pipe(changed(destinationDir))
-        .pipe(imageResize({
-            width : 1600,
-            imageMagick: true
-        }))
-        .pipe(image({
-        }))
-        .pipe(rename(function (path) {
-            let sourceName = path.dirname.split('/').shift();
-            path.dirname = `/pages/${sourceName}`;
-            return path;
-          }))
-        .pipe(gulp.dest(`${destinationDir}/images`))
-});
 
-gulp.task('images', ['site-images', 'page-images']);
+gulp.task('images', ['site-images']);
 
 gulp.task('public', function () {
   return gulp.src([`${sourceDir}/public/**/*.*`, `${sourceDir}/public/.*`])

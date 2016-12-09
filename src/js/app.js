@@ -1,16 +1,14 @@
 import 'babel-polyfill';
 import _ from 'underscore';
+import Velocity from 'velocity-animate';
 import log from './utils/logger';
 import History from './utils/history';
 import ScreenMode from './utils/screenmode';
 import Tools from 'utils/tools';
-
-import Velocity from 'velocity-animate';
-
+import Sidebar from './modules/sidebar';
 import Video from './modules/video';
 import Questions from './modules/questions';
 import Results from './modules/results';
-
 import React from 'react';
 import {render, unmountComponentAtNode} from 'react-dom';
 
@@ -20,32 +18,51 @@ class App {
 
 	constructor(config){
 		this.history = new History();	
+		this.sidebar = new Sidebar();
 		this.$html = document.querySelector('html');
 		this.$body = document.querySelector('body');	
 		this.$content = document.querySelector('.content');
 
+		let sections = data.vragen.attributes.sections || [];
 		this.currentPathSegments = [];
 		this.questions = {};
-		this.answers = [];
-		this.totalQuestions = data.vragen.attributes.sections.length;
+		this.answers = {};
 
-		data.vragen.attributes.sections.forEach((section) => {
+		sections.forEach((section) => {
 			this.questions[section.id] = section;
+			this.answers[section.id] = {
+				correct: false,
+				done: false
+			};
+		});
+
+		let $videoTriggers = document.querySelectorAll("[data-js='video-trigger']");
+		Array.from($videoTriggers).forEach(($link) => {
+			$link.addEventListener('click', (e) => {
+				this.renderVideo();
+			});
 		});
 
 		this.routes = {
-			"vragen": {
-				render: this.renderVideo.bind(this),
-				container: document.querySelector('.video')
-			},
-			"resultaten": {
-				render: this.renderResults.bind(this),
-				container: document.querySelector('.header')
+			"page": {
+				render: this.renderPage.bind(this)
 			}
 		}
 
 		Tools.toggleClass(this.$html,'no-js', false);
 		Tools.toggleClass(this.$html,'js', true);
+
+		this.sidebar.on('open', (e) => {
+			if(this.videoPlayer != undefined){
+				this.videoPlayer.pause();
+			}
+		});
+
+		this.sidebar.on('close', (e) => {
+			if(this.videoPlayer != undefined){
+				this.videoPlayer.play();
+			}
+		});
 
 		this.history.on('change', (e) => {
 			this.initPath(e.pathname);
@@ -59,6 +76,12 @@ class App {
 		});
 
 		this.currentPathSegments = [];
+
+		if(screenMode.isDesktop()){
+			setTimeout(() => {
+				Tools.toggleClass(this.$html, 'animate', true);
+			}, 1000);
+		}
 	}
 
 	setScreenMode(mode){
@@ -69,9 +92,10 @@ class App {
 		let pathSegments = pathname.split('/');
 		pathSegments = _.without(pathSegments, '');
 
+
 		// Remove old screens
-		let oldPathSegments = _.difference(this.currentPathSegments, pathSegments);
-		oldPathSegments.forEach((path) => {
+		let removePathSegments = _.difference(this.currentPathSegments, pathSegments);
+		removePathSegments.forEach((path) => {
 			let route = this.routes[path];
 			if(route){
 				unmountComponentAtNode(route.container);
@@ -79,8 +103,10 @@ class App {
 		});
 
 		// Render new screens
-		let newPathSegments = _.difference(pathSegments, this.currentPathSegments);
-		newPathSegments.forEach((path) => {
+		// let renderPathSegments = _.difference(pathSegments, this.currentPathSegments);
+		let renderPathSegments = pathSegments;
+		
+		renderPathSegments.forEach((path) => {
 			let route = this.routes[path];
 			if(route){
 				route.render(route.container);
@@ -88,10 +114,12 @@ class App {
 		});
 
 		this.currentPathSegments = pathSegments;
-		Tools.toggleClass(this.$content, 'active', pathSegments.length > 0);
+		// Tools.toggleClass(this.$content, 'active', pathSegments.length > 0);
 	}
 
 	renderVideo($container){
+		this.sidebar.close();
+
 		let pathSegments = this.currentPathSegments.slice(0);
 		let question = pathSegments.pop();
 		if(question == undefined){
@@ -102,14 +130,20 @@ class App {
 			chapter={question}
 			onInit={(e) => {this.onRenderVideo(e);}}
 			onQuestion={(e) => {this.onQuestion(e);}}
-		/>, $container);
+			onVideoDone={(e) => {this.onVideoDone(e);}}
+		/>, document.querySelector('.video'));
 
+ 		Tools.toggleClass(this.$content, 'active', true);
 		this.scrollTo('.content');
 	}
 
 	onRenderVideo(e){
 		this.videoPlayer = e.player;
 		this.videoPlayer.play();
+	}
+
+	onVideoDone(e){
+		this.renderResults();
 	}
 
 	onQuestion(e){
@@ -143,11 +177,7 @@ class App {
 	}
 
 	onQuestionAnswer(data){
-		this.answers.push(data);
-
-		if(this.answers.length == this.totalQuestions){
-			this.history.set('/resultaten');
-		}
+		_.extend(this.answers[data.id], data, {done:true});
 
 		this.removeQuestion();
 		this.videoPlayer.play();
@@ -174,9 +204,13 @@ class App {
 	renderResults($container){
 		render(<Results 
 			answers = {this.answers}
-		/>, $container);
+		/>, document.querySelector('.header__content'));
 
 		this.scrollTo('.header');
+	}
+
+	renderPage(){
+		this.sidebar.showPage();
 	}
 
 	scrollTo(selector, speed = 250, delay = 0, callback){

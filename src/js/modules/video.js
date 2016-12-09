@@ -30,7 +30,6 @@ class Video extends React.Component{
 					let cue = cues[a];
 
 					cue.onenter = function(){
-						log('onenter', cue.id);
 					};
 
 					cue.onexit = function(){
@@ -50,6 +49,12 @@ class Video extends React.Component{
 				}
 
 				 base.player.currentTime(startTime);
+
+				 videoElement.onended = function(){
+				 	base.props.onVideoDone({
+
+				 	});
+				 }
 
 				//  chapters.oncuechange = () => {
 				// }
@@ -71,7 +76,6 @@ class Video extends React.Component{
 	}
 
 	goToChaper(chapter){
-		let videoElement = document.querySelector("video");
 		let textTracks =  this.player.textTracks();
 		let chapters = textTracks[0];
 		let cues = chapters.cues;
@@ -89,8 +93,8 @@ class Video extends React.Component{
 				<video id="video__element" className="video__container video-js vjs-default-skin"
 					  controls preload="auto"
 					  poster="http://video-js.zencoder.com/oceans-clip.png">
-					 <source src="eh5v.files/html5video/Vastgoed_Maetland.m4v" type="video/mp4" />
-					 <source src="eh5v.files/html5video/Vastgoed_Maetland.webm" type="video/webm" />
+					 <source src="eh5v.files/html5video/BZ_FILM_FINAL.m4v" type="video/mp4" />
+					 <source src="eh5v.files/html5video/BZ_FILM_FINAL.webm" type="video/webm" />
 					 <track kind="chapters" src="tracks.vtt" default></track>
 				</video>
 			</div>

@@ -1,0 +1,14 @@
+.footer{
+	background: white;
+	line-height: 2.25em;
+	padding: 0 3em;
+	color: var(--color-blue);
+	font-family: var(--font-heading-bold);
+	font-size: var(--ms1);
+}
+
+.footer__quote{
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 1em;
+}

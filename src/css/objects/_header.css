@@ -1,7 +1,46 @@
 .header{
 	width: 100%;
 	height: 100%;
+
+	display: flex; 
+	flex-direction: column; 
+	align-items: center;
 }
+
+.header__top{
+
+}
+
+.header__content{
+	margin-top: -15%;
+
+	flex-grow: 1;
+	display: flex; 
+	flex-direction: column; 
+	align-items: center;
+	justify-content: center;
+}
+
+
+.header__footer{
+
+}
+
+
+
+@media (--desktop-viewport ) {
+	.header{
+		opacity: 0;
+		transition: all .4s ease .65s;
+	}
+
+	html.animate  .header{
+		opacity: 1;
+	}
+}
+
+
+
 
 
 @media (--minimal-viewport) {

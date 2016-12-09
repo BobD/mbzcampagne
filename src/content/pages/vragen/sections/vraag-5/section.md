@@ -1,12 +1,12 @@
 ---
-start: "00:00:16.500"
-end: "00:00:20.000"
-title: Vraag 5, Hier is Sam in
+start: "00:00:58.500"
+end: "00:01:08.000"
+title: Hier is Sam in
 options:
-- Dubai
 - Singapore
-- Rio de Janeiro
-- Bali	
-- Moskou
-answer: Bali
+- Londen
+- Sydney
+- Kopenhagen	
+- Buenos Aires
+answer: Londen
 ---

@@ -1,4 +1,38 @@
-<div class="background">
+{% set totalSlices = 22 %}
+{% set sliceWidth  = 100 / 22 %}
+{% set backgroundWidth  = 100 * 22 %}
+
+<style>
+
+	/* Keep this breakpoint in sync with the '--desktop-viewport' in src/css/settings/_breakpints.css */
+	@media (min-width:1024px){
+
+		.background__image{
+			transform: translateX(-105%);
+			opacity: 0;
+			transition: all .4s ease;
+		}
+
+		{% for i in 1..(totalSlices + 1) %}
+			html.animate .background__slice:nth-child({{i}}) .background__image{
+				transition-delay: {{ (i * 0.04)}}s;
+				transform: translateX(0%);
+				opacity: 1;
+			}
+		{% endfor %}
+	}
+
+</style>
 	
+
+<div class="background">
+	{% for i in 0..(totalSlices) %}
+		{% set backgroundPosition  = (100 / 21) * i %}
+
+		<div class="background__slice"  style="width: {{sliceWidth}}%;">
+			<div class="background__image" style="background-size: {{backgroundWidth}}%; background-position: {{backgroundPosition}}% bottom">
+			</div>
+		</div>
+	{% endfor %}
 	
 </div>
